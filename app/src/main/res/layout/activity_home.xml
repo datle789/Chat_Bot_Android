@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <ImageView-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:id="@+id/imageview"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            />-->
+<!--    </RelativeLayout>-->
+
+    <Button
+        android:id="@+id/chattobot"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/custom_button"
+        android:textColor="@color/white"
+        android:text="Chat With Bot" />
+    <Button
+        android:id="@+id/chattobotbyimage"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:text="Chat With bot by image"
+        android:background="@drawable/custom_button"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/white"
+        android:layout_below="@+id/chattobot"
+        />
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:text="Log Out"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/custom_button"
+        android:textColor="@color/white"
+        android:layout_below="@+id/chattobotbyimage"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="266dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="94dp"
+        android:layout_marginBottom="437dp"
+        android:text="Welcome To ChatGPT"
+        android:textSize="50dp" />
+
+
+</RelativeLayout>
