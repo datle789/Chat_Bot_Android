@@ -37,8 +37,8 @@ public class HomeActivity extends AppCompatActivity {
         toChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),ChatActivity.class);
+                startActivity(intent);
             }
         });
 

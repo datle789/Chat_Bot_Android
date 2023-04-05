@@ -16,6 +16,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="#DBECF1"
         android:id="@+id/generate_image_text"/>
+
     <ImageView
         android:layout_width="350dp"
         android:layout_height="350dp"
@@ -24,12 +25,14 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="#202123"></ImageView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="vertical">
+
 
         <EditText
             android:id="@+id/generate_image_edit_text"
@@ -61,6 +64,19 @@
             android:textSize="16dp"
             android:background="@drawable/custom_button"
             android:textColor="#DBECF1"></Button>
+
+        <Button
+            android:id="@+id/generate_image_save_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="save to device"
+            android:textSize="16dp"
+            android:visibility="gone"
+            android:background="@drawable/custom_button"
+            android:textColor="#DBECF1"></Button>
+
 
     </LinearLayout>
 
