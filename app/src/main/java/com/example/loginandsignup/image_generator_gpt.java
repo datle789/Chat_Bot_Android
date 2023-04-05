@@ -73,7 +73,7 @@ public class image_generator_gpt extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(jsonObject.toString(), JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/images/generations")
-                .header("Authorization","Bearer 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")
+                .header("Authorization","Bearer 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")
                 .post(requestBody)
                 .build();
 
