@@ -3,6 +3,8 @@ package com.example.loginandsignup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,6 +35,8 @@ public class image_generator_gpt extends AppCompatActivity {
 
     EditText inputText;
     Button generateButton;
+
+    Button saveButton;
     ProgressBar progressBar;
     ImageView imageView;
 
@@ -45,6 +52,7 @@ public class image_generator_gpt extends AppCompatActivity {
 
         inputText = findViewById(R.id.generate_image_edit_text);
         generateButton = findViewById(R.id.generate_image_button);
+        saveButton = findViewById(R.id.generate_image_save_button);
         progressBar = findViewById(R.id.generate_image_circular);
         imageView = findViewById(R.id.generate_image_view);
 
@@ -73,7 +81,7 @@ public class image_generator_gpt extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(jsonObject.toString(), JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/images/generations")
-                .header("Authorization","Bearer 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")
+                .header("Authorization","Bearer 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")
                 .post(requestBody)
                 .build();
 
@@ -89,13 +97,13 @@ public class image_generator_gpt extends AppCompatActivity {
                     JSONObject object = new JSONObject(response.body().string());
                     String imageUrl = object.getJSONArray("data").getJSONObject(0).getString("url");
                     loadImage(imageUrl);
+                    //Log.i("response :", response.body().string());
                     setInProgress(false);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
         });
-
     }
 
     void setInProgress(boolean inProgress){
@@ -103,9 +111,12 @@ public class image_generator_gpt extends AppCompatActivity {
             if(inProgress){
                 progressBar.setVisibility(View.VISIBLE);
                 generateButton.setVisibility(View.GONE);
+                saveButton.setVisibility(View.GONE);
             } else{
                 progressBar.setVisibility(View.GONE);
                 generateButton.setVisibility(View.VISIBLE);
+                saveButton.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -117,4 +128,6 @@ public class image_generator_gpt extends AppCompatActivity {
         });
 
     }
+
+
 }
