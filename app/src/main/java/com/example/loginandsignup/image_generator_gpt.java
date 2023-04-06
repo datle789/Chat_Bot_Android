@@ -94,7 +94,6 @@ public class image_generator_gpt extends AppCompatActivity {
             Picasso.get().load(urlOfImaage).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    // Define the file details for the saved image
                     String mimeType = "image/jpeg";
                     ContentValues values = new ContentValues();
                     values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
@@ -102,17 +101,13 @@ public class image_generator_gpt extends AppCompatActivity {
                     values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
                     values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
 
-                    // Insert the image into MediaStore
                     ContentResolver contentResolver = getContentResolver();
                     Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-                    // Open an OutputStream to write the image data
                     OutputStream outputStream;
                     try {
                         outputStream = contentResolver.openOutputStream(imageUri);
-                        // Compress and write the bitmap data to the OutputStream
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                        // Close the OutputStream
                         outputStream.close();
                         Toast.makeText(getApplicationContext(), "Image saved to external storage", Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
@@ -128,7 +123,7 @@ public class image_generator_gpt extends AppCompatActivity {
 
                 @Override
                 public void onPrepareLoad(Drawable placeHolderDrawable) {
-                    // Optional: You can show a progress dialog or a placeholder image while the image is being loaded
+
                 }
             });
         }));
