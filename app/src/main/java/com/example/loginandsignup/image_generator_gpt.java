@@ -2,10 +2,21 @@ package com.example.loginandsignup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +26,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -33,12 +50,18 @@ import okhttp3.Response;
 
 public class image_generator_gpt extends AppCompatActivity {
 
+    private static int REQUEST_CODE = 100;
+
+    OutputStream outputStream;
+
     EditText inputText;
     Button generateButton;
 
     Button saveButton;
     ProgressBar progressBar;
     ImageView imageView;
+
+    String urlOfImaage;
 
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
@@ -64,6 +87,51 @@ public class image_generator_gpt extends AppCompatActivity {
             callAPI(text);
 
         }));
+
+        saveButton.setOnClickListener((view -> {
+
+            String fileName = inputText.getText() + ".jpg";
+            Picasso.get().load(urlOfImaage).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    // Define the file details for the saved image
+                    String mimeType = "image/jpeg";
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+                    values.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
+                    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+                    values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+
+                    // Insert the image into MediaStore
+                    ContentResolver contentResolver = getContentResolver();
+                    Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                    // Open an OutputStream to write the image data
+                    OutputStream outputStream;
+                    try {
+                        outputStream = contentResolver.openOutputStream(imageUri);
+                        // Compress and write the bitmap data to the OutputStream
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                        // Close the OutputStream
+                        outputStream.close();
+                        Toast.makeText(getApplicationContext(), "Image saved to external storage", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Failed to save image to external storage", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                    Toast.makeText(getApplicationContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    // Optional: You can show a progress dialog or a placeholder image while the image is being loaded
+                }
+            });
+        }));
     }
 
     void callAPI(String text){
@@ -81,7 +149,7 @@ public class image_generator_gpt extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(jsonObject.toString(), JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/images/generations")
-                .header("Authorization","Bearer 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")
+                .header("Authorization","Bearer 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")
                 .post(requestBody)
                 .build();
 
@@ -96,6 +164,7 @@ public class image_generator_gpt extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(response.body().string());
                     String imageUrl = object.getJSONArray("data").getJSONObject(0).getString("url");
+                    urlOfImaage = imageUrl;
                     loadImage(imageUrl);
                     //Log.i("response :", response.body().string());
                     setInProgress(false);
@@ -128,6 +197,4 @@ public class image_generator_gpt extends AppCompatActivity {
         });
 
     }
-
-
 }
