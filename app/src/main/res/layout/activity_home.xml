@@ -35,34 +35,22 @@
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:text="Generate Image"
+        android:text="Chat With bot by image"
         android:background="@drawable/custom_button"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:textColor="@color/white"
         android:layout_below="@+id/chattobot"
         />
-
-    <Button
-        android:id="@+id/speechtotext"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:text="Speech To Text"
-        android:background="@drawable/custom_button"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:layout_below="@+id/chattobotbyimage" />
-
     <Button
         android:id="@+id/logout"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:text="logout"
+        android:text="Log Out"
+        android:layout_marginTop="50dp"
         android:background="@drawable/custom_button"
-        android:layout_marginTop="30dp"
         android:textColor="@color/white"
-        android:layout_below="@+id/speechtotext" />
+        android:layout_below="@+id/chattobotbyimage"/>
 
     <TextView
         android:id="@+id/textView7"
