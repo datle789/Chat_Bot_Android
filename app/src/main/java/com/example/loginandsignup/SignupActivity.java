@@ -36,6 +36,9 @@ public class SignupActivity extends AppCompatActivity {
                 String pass = password.getText().toString();
                 String repass = repassword.getText().toString();
 
+                if(user.length() < 8 || pass.length()< 8){
+                    Toast.makeText(SignupActivity.this, "The characters is not enough", Toast.LENGTH_SHORT).show();
+                }
                 if(user.equals("")||pass.equals("")||repass.equals("")){
                     Toast.makeText(SignupActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 }else{
