@@ -39,7 +39,8 @@ public class ChatActivity extends AppCompatActivity {
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS).build();
+            .readTimeout(60, TimeUnit.SECONDS)
+                .build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,24 +91,24 @@ public class ChatActivity extends AppCompatActivity {
 
         JSONObject jsonBody = new JSONObject();
         try {
-//            jsonBody.put("model","text-davinci-003");
-//            jsonBody.put("prompt",question);
-//            jsonBody.put("max_tokens",4000);
-//            jsonBody.put("temperature",0);
-            jsonBody.put("model","gpt-3.5-turbo");
-            JSONArray messageARR = new JSONArray();
-            JSONObject obj = new JSONObject();
-            obj.put("role","user");
-            obj.put("content",question);
-            messageARR.put(obj);
-            jsonBody.put("messages",messageARR);
+            jsonBody.put("model","text-davinci-003");
+            jsonBody.put("prompt",question);
+            jsonBody.put("max_tokens",4000);
+            jsonBody.put("temperature",0);
+//            jsonBody.put("model","gpt-3.5-turbo");
+//            JSONArray messageARR = new JSONArray();
+//            JSONObject obj = new JSONObject();
+//            obj.put("role","user");
+//            obj.put("content",question);
+//            messageARR.put(obj);
+//            jsonBody.put("message",messageARR);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
         Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/chat/completions")
-                .header("Authorization","Bearer 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")
+                .url("https://api.openai.com/v1/completions")
+                .header("Authorization","Bearer YOUR-API-KEY")
                 .post(body)
                 .build();
 
@@ -124,8 +125,9 @@ public class ChatActivity extends AppCompatActivity {
                     try {
                         jsonObject = new JSONObject(response.body().string());
                         JSONArray jsonArray = jsonObject.getJSONArray("choices");
-                        String result = jsonArray.getJSONObject(0).
-                                getJSONObject("message").getString("content");//getString("text");
+                        String result = jsonArray.getJSONObject(0).getString("text");
+//                                .getJSONObject("message")
+//                                .getString("content");//
                         addResponse(result.trim());
                     } catch (JSONException e) {
                         e.printStackTrace();
