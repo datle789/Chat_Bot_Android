@@ -11,6 +11,7 @@ public class HomeActivity extends AppCompatActivity {
     Button logout;
     Button toChat;
     Button toGenerateImage;
+    Button toSpeech;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
         logout =  (Button) findViewById(R.id.logout);
         toChat =  (Button) findViewById(R.id.chattobot);
         toGenerateImage =  (Button) findViewById(R.id.chattobotbyimage);
+        toSpeech =  (Button) findViewById(R.id.speechtotext);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +33,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),image_generator_gpt.class);
+                startActivity(intent);
+            }
+        });
+        toSpeech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),SpeechToText.class);
                 startActivity(intent);
             }
         });
