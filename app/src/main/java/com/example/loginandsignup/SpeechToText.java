@@ -1,5 +1,7 @@
 package com.example.loginandsignup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +19,11 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+
 public class SpeechToText extends AppCompatActivity {
 
+    private ActivityResultLauncher<Intent> speechToTextLauncher;
     EditText textView;
     ImageButton imageButton;
 
@@ -30,11 +35,24 @@ public class SpeechToText extends AppCompatActivity {
         textView = findViewById(R.id.speechtotext_edit_text);
         imageButton = findViewById(R.id.speechtotext_record);
 
+        speechToTextLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                ArrayList<String> resultList = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if (resultList != null && !resultList.isEmpty()) {
+                    String text = resultList.get(0);
+                    // Xử lý kết quả trả về ở đây
+                    textView.setText(text);
+                }
+            }
+        });
+
+
         imageButton.setOnClickListener((v)->{
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Start Speaking");
-            startActivityForResult(intent, 100);
+//            startActivityForResult(intent, 100);
+            speechToTextLauncher.launch(intent);
         });
     }
 
